@@ -10,7 +10,11 @@ interface Comment {
   message: string;
 }
 
-const CommentForm: React.FC = ({ onNewComment }) => {
+interface CommentFormProps {
+  onNewComment: () => void;
+}
+
+const CommentForm: React.FC<CommentFormProps> = ({ onNewComment }) => {
   const [name, setName] = useState('');
   const [message, setMessage] = useState('');
   const [isVisible, setIsVisible] = useState(false);
@@ -19,7 +23,7 @@ const CommentForm: React.FC = ({ onNewComment }) => {
     setIsVisible(!isVisible);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const newComment = {
@@ -43,7 +47,7 @@ const CommentForm: React.FC = ({ onNewComment }) => {
     }
   };
 
-  const deletePosts = async (e) => {
+  const deletePosts = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
       const res = Api.delete('http://localhost:3001/deleteComments');

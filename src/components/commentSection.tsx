@@ -3,10 +3,17 @@ import CommentForm from './commentForm';
 import CommentList from './commentList'; // Assuming you have a CommentList component
 import { Api } from '../api';
 
+interface Comment {
+  id: number;
+  name: string;
+  created: Date;
+  message: string;
+}
+
 const CommentSection = () => {
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState<Comment[]>([]);
   const [searchId, setSearchId] = useState(''); // State to store the search input value
-  const [searchResult, setSearchResult] = useState(null);
+  const [searchResult, setSearchResult] = useState<Comment | null>(null);
 
   // Function to fetch comments
   const fetchComments = async () => {
@@ -19,7 +26,7 @@ const CommentSection = () => {
   };
 
   // Function to handle the search and fetch a comment by ID
-  const searchCommentById = async ( searchId ) => {
+  const searchCommentById = async (searchId: string) => {
     console.log('searchId:', searchId);
     try {
       const response = await fetch(`http://localhost:3001/getComment?id=${searchId}`, {
@@ -57,11 +64,11 @@ const CommentSection = () => {
     fetchComments();
   };
 
-  const handleSearchInputChange = (event) => {
+  const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchId(event.target.value);
   };
 
-  const handleSearchSubmit = (event) => {
+  const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (searchId) {
       searchCommentById(searchId);

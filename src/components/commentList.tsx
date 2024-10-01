@@ -1,14 +1,24 @@
 import React from 'react';
 
-const CommentList = ({ comments }) => {
+interface Comment {
+  id: number;
+  name: string;
+  created: Date;
+  message: string;
+}
+
+interface CommentListProps {
+  comments: Comment[];
+}
+
+const CommentList: React.FC<CommentListProps> = ({ comments }) => {
   const isArray = Array.isArray(comments);
 
-  const formatDate = (dateString) => {
+  const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-
-    // Get the day of the week and time (12-hour format with AM/PM)
-    const options = { weekday: 'long', hour: 'numeric', minute: 'numeric', hour12: true };
-    return new Intl.DateTimeFormat('en-US', options).format(date);
+    return new Intl.DateTimeFormat('en-US',
+      { weekday: 'long', hour: 'numeric', minute: 'numeric', hour12: true }
+    ).format(date);
   };
 
   return (
