@@ -58,26 +58,6 @@ class DataAccessObject {
     });
   }
 
-  // New method to delete a comment by ID
-  /*
-  deleteComment(id) {
-    return new Promise((resolve, reject) => {
-      const sql = 'DELETE FROM comments WHERE id = ?';
-      console.log(`Executing query: ${sql} with ID: ${id}`);
-      this.db.run(sql, [id], function(error) {
-        if (error) {
-          console.error(`Error deleting comment with id ${id}: ${error}`);
-          reject(error);
-        } else {
-          console.log(`Changes made: ${this.changes}`);
-          resolve({ message: `Comment with id ${id} deleted`, changes: this.changes });
-        }
-      });
-    });
-  } */
-
-
-
 }
 
 module.exports = DataAccessObject;

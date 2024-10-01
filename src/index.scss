@@ -1,23 +1,48 @@
 @import 'scss/reset';
 
-$accent-color: #fbbc04;
+
+$body_color: #e2e1e1da;
+$comment_form: #f9f9f9; //rgba(249, 249, 249, 0.7);
+$comment_bkg: #fafafa;
+$focus_color: #007bff;
+$focus_box: rgba(0, 123, 255, 0.5);
+$button_blue: #007bff;
+$button_blue_hover: #0056b3;
+$button_red: #dc3545;
+$button_red_hover: #c82333;
+$button_green: #28a745;
+$button_green_hover: #218838;
 
 :root {
-
-  // RIGHT, will work in all Sass versions.
-  --accent-color-right: #{$accent-color};
+    --body-color-var: #{$body-color};
+    --comment-form-bkg: #{$comment_form};
+    --comment-bkg-var: #{$comment_bkg};
+    --focus-color-var: #{$focus_color};
+    --focus-box-var: #{$focus_box};
+    --button-blue-bkg: #{$button_blue};
+    --button-blue-hover: #{$button_blue_hover};
+    --button-red-bkg: #{$button_red};
+    --button-red-hover: #{$button_red_hover};
+    --button-green-bkg: #{$button_green};
+    --button-green-hover: #{$button_green_hover};
 }
-
 
 body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    //background: url('./images/tile-bkg4.png');
-    //background-position: center center;
-    //background-repeat: repeat;
-    //background-size: 10em;
-    background-color: #e2e1e1da;
+    background-color: var(--body-color-var);
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
 }
 
 .page-wrapper {
@@ -27,14 +52,12 @@ body {
 .comments__container {
     margin: 50px auto 40px;
     width: calc( 100% - 40px);
-    /* height: 100%; */
     max-width: 1200px;
 
     .comment__form {
-
         margin: 0 auto;
         padding: 20px;
-        background-color: #f9f9f9;
+        background-color: var(--comment-form-bkg);
         border: 1px solid #ddd;
         border-radius: 8px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -42,6 +65,7 @@ body {
         position: fixed;
         bottom: 10px;
         left: 10px;
+        z-index: 999;
 
         input {
             width: 100%;
@@ -53,8 +77,7 @@ body {
             margin-bottom: 10px;
             resize: vertical;
             line-height: 1.6;
-            font-family: "Courier New", Courier, monospace;
-            background-color: #fafafa;
+            background-color: var(--comment-bkg-var);
             min-height: 150px;
         }
 
@@ -71,8 +94,8 @@ body {
             transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
             &:focus {
                 outline: none;
-                border-color: #007bff;
-                box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+                border-color: var(--focus-color-var);
+                box-shadow: 0 0 5px var(--focus-box-var);
             }
         }
 
@@ -88,25 +111,50 @@ body {
             color: #333;
         }
 
-        button.toggle-button{
+        button[type="submit"] {
             padding: 10px 20px;
             font-size: 1.2em;
-            background-color: #28a745;
+            background-color: var(--button-blue-bkg);
             color: #fff;
             border: none;
             border-radius: 4px;
             cursor: pointer;
             transition: background-color 0.3s ease-in-out;
-            //margin-bottom: 20px;
             &:hover {
-                background-color: #218838;
+                background-color: var(--button-blue-hover);
             }
-            &.visible {
-                margin-bottom: 20px;
+        }
+        button.deletePosts {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            background-color: var(--button-red-bkg);
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 20px;
+            transition: background-color 0.3s ease-in-out;
+            &:hover {
+                background-color: var(--button-red-hover);
             }
         }
 
-
+        button.toggle-button{
+            padding: 10px 20px;
+            font-size: 1.2em;
+            background-color: var(--button-green-bkg);
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+            &:hover {
+                background-color: var(--button-green-hover);
+            }
+            &.visible {
+                margin-top: 20px;
+            }
+        }
 
         small {
             font-size: 0.9em;
@@ -115,148 +163,52 @@ body {
             margin-top: 5px;
         }
 
-    }
+    } //comment form
 
-}
+    @media only screen and (max-width: 1200px) {
+        & {
+            margin: 50px 20px 40px;
+        }
+	}
+} //comments container
 
 
 
 .comment__list {
     padding: 1.5rem;
-    background: rgba(255, 255, 255, 0.5);
+    background: linear-gradient(135deg, #0076c0, #00a5e5, #ffffff);
     border-radius: 5px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
     article {
-       border: 1px solid black;
-       border-radius: 5px;
-       margin: 10px 0;
-       padding: 10px 20px;
-       background: white;
-    }
+        border: 1px solid black;
+        border-radius: 5px;
+        margin: 10px 0;
+        padding: 10px 20px;
+        background: rgba( 255, 255, 255, 1);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        opacity: 0.8;
 
-}
-
-/* Screen Reader Only Text */
-.sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    border: 0;
-}
-
-
-
-
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	~~~~~MEDIA QUERIES~~~~
-	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-	@media only screen and ( min-width: 1100px ) and ( max-width: 1405px) {
-
-	}
-
-	@media only screen and ( min-width: 981px ) {
-
-	}
-
-	@media only screen and (max-width: 1200px) {
-        .comments__container {
-            margin: 50px 20px 40px;
+        p {
+            margin: 0 0 10px;
         }
-	}
 
-	@media only screen and (max-width: 980px) {
+        .comment_author {
+            font-style: italic;
+            text-transform: capitalize;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
 
-	}
+        .comment_separator {
+            margin: 0 5px;
+        }
 
-	@media only screen and ( max-width: 783px ) {
+        .comment_date {
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
 
-	}
+    } // article
 
-	@media only screen and ( max-width: 768px ) {
-
-	}
-
-	@media only screen and (max-width: 665px) {
-
-
-	}
-
-    @media only screen and (max-width: 575px) {
-
-    }
-
-	@media only screen and (max-width: 479px) {
-
-	}
-
-	/* Responsive CSS */
-
-	/* Tablets */
-	@media (max-width: 767px){
-
-	}
-
-	/*==================================================
-	=            Bootstrap 3 Media Queries             =
-	==================================================*/
-
-    /*==========  Mobile First Method  ==========*/
-
-    /* Custom, iPhone Retina */
-    @media only screen and (min-width : 320px) {
-
-    }
-
-    /* Extra Small Devices, Phones */
-    @media only screen and (min-width : 480px) {
-
-    }
-
-    /* Small Devices, Tablets */
-    @media only screen and (min-width : 768px) {
-
-    }
-
-    /* Medium Devices, Desktops */
-    @media only screen and (min-width : 992px) {
-
-    }
-
-    /* Large Devices, Wide Screens */
-    @media only screen and (min-width : 1200px) {
-
-    }
-
-
-
-    /*==========  Non-Mobile First Method  ==========*/
-
-    /* Large Devices, Wide Screens */
-    @media only screen and (max-width : 1200px) {
-
-    }
-
-    /* Medium Devices, Desktops */
-    @media only screen and (max-width : 992px) {
-
-    }
-
-    /* Small Devices, Tablets */
-    @media only screen and (max-width : 768px) {
-
-    }
-
-    /* Extra Small Devices, Phones */
-    @media only screen and (max-width : 480px) {
-
-    }
-
-    /* Custom, iPhone Retina */
-    @media only screen and (max-width : 320px) {
-
-    }
+} //comment list

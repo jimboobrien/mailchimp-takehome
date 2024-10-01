@@ -6,14 +6,9 @@ import { Api } from '../api';
 interface Comment {
   id: number;
   name: string;
-  message: string;
   created: Date;
+  message: string;
 }
-
-//* id: INTEGER
-//* name: TEXT
-//* created: DATETIME
-//* message: TEXT
 
 const CommentForm: React.FC = ({ onNewComment }) => {
   const [name, setName] = useState('');
@@ -37,10 +32,10 @@ const CommentForm: React.FC = ({ onNewComment }) => {
     try {
       const res = Api.post('http://localhost:3001/createComment', newComment)
 
-      // Call the onNewComment callback to notify the parent component
-      if (onNewComment && res.id) {
-        onNewComment(res.id); // Pass the new comment ID to the parent
+      if ( res.success ){
+        onNewComment(); // This will trigger a re-fetch of the comments
       }
+
       setName('');
       setMessage('');
     } catch (error) {
@@ -48,14 +43,20 @@ const CommentForm: React.FC = ({ onNewComment }) => {
     }
   };
 
+  const deletePosts = async (e) => {
+    e.preventDefault();
+    try {
+      const res = Api.delete('http://localhost:3001/deleteComments');
+      if ( res.success ) {
+        console.log('Comments deleted');
+      }
+    } catch (error) {
+      console.error('Error deleting comment:', error);
+    }
+  };
+
   return (
-    <div className='comment__form'>
-      <button
-        className={`toggle-button ${isVisible ? 'visible' : ''}`}
-        onClick={toggleForm}
-      >
-        {isVisible ? 'Hide Form' : 'Submit Comment'}
-      </button>
+    <div className={`comment__form ${isVisible ? 'opened' : ''}`}>
       {isVisible && (
       <form onSubmit={handleSubmit} className="form__container">
         <div className="form-group">
@@ -97,9 +98,21 @@ const CommentForm: React.FC = ({ onNewComment }) => {
           <small id="messageHelp" className="sr-only">Enter your message here.</small>
         </div>
 
-        <button type="submit">Comment</button>
+        <button type="submit">Submit</button>
+        <button
+          className={`deletePosts`}
+          onClick={deletePosts}
+        >
+          Delete
+        </button>
       </form>
       )}
+      <button
+        className={`toggle-button ${isVisible ? 'visible' : ''}`}
+        onClick={toggleForm}
+      >
+        {isVisible ? 'Hide Form' : 'Submit Comment'}
+      </button>
     </div>
   );
 

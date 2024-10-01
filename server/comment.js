@@ -36,12 +36,6 @@ class Comment {
     return this.dataAccessObject.all('SELECT * FROM comments');
   }
 
-  /*deleteComment(id) {
-    return this.dataAccessObject.run(
-      'DELETE FROM comments WHERE id = ?',
-      [id]
-    );
-  }*/
 }
 
 module.exports = Comment;
