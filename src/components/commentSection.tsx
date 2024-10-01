@@ -27,7 +27,6 @@ const CommentSection = () => {
 
   // Function to handle the search and fetch a comment by ID
   const searchCommentById = async (searchId: string) => {
-    console.log('searchId:', searchId);
     try {
       const response = await fetch(`http://localhost:3001/getComment?id=${searchId}`, {
         method: 'GET',
@@ -36,7 +35,6 @@ const CommentSection = () => {
         }
       });
       if (response.ok) {
-        console.log('Response:', response);
         const text = await response.text();
         const data = text ? JSON.parse(text) : {};
         setSearchResult(data);
