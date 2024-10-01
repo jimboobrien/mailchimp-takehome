@@ -39,12 +39,29 @@ app.post('/createComment', async function(request, response) {
   }
 });
 
-app.get('/getComment', function(request, response) {
-  const { body } = request;
-  const { id } = body;
-  comment.getComment(id).then(result => {
-    response.send(result);
-  });
+app.get('/getComment', async function(request, response) {
+  try {
+    //const { body } = request;
+    //const { id } = body;
+    const { id } = request.query;
+    //request.setHeader('Content-Type', 'application/json');
+    if (!id) {
+      return response.status(400).json({ error: 'ID is required' });
+    }
+    const result = await comment.getComment(id);
+    if (!result) {
+      return response.status(404).json({ error: 'Comment not found' });
+    }
+
+    response.status(200).json(result);
+
+    // comment.getComment(id).then(result => {
+    //   response.send(result);
+    // });
+  } catch (error) {
+    console.error('Error fetching comment:', error);
+    res.status(500).json({ error: 'An error occurred while fetching the comment' });
+  }
 });
 
 app.get('/getComments', async function(request, response) {

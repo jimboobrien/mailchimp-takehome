@@ -9,27 +9,9 @@ describe('API methods', () => {
     jest.resetAllMocks();
   });
 
-  it('should call GET request and return data', async () => {
-    const mockResponse = { data: 'test' };
-    global.fetch.mockResolvedValue({
-      json: jest.fn().mockResolvedValue(mockResponse),
-    });
-
-    const url = '/getcomments';
-    const result = await Api.get(url);
-
-    expect(global.fetch).toHaveBeenCalledWith(url, {
-      method: 'get',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-    });
-    expect(result).toEqual(mockResponse);
-  });
-
+  //POST /createComment
   it('should call POST request with a body and return data', async () => {
-    const mockResponse = { data: 'test' };
+    const mockResponse = { "id": 98 };
     global.fetch.mockResolvedValue({
       json: jest.fn().mockResolvedValue(mockResponse),
     });
@@ -49,8 +31,50 @@ describe('API methods', () => {
     expect(result).toEqual(mockResponse);
   });
 
+  //GET /getComments
+  it('should call GET request and return data', async () => {
+    const mockResponse = [{"id":95,"name":"Cris","message":"Hello, world!","created":"2023-10-02 15:44:57"},{"id":96,"name":"Marceline's Mom","message":"Something weird might just be something familiar viewed from a different angle.","created":"2023-10-02 15:55:27"},{"id":97,"name":"Royal Tart Toter","message":"This cosmic dance of bursting decadence and withheld permissions twists all our arms collectively, but if sweetness can win, and it can, then I’ll still be here tomorrow to high-five you yesterday, my friend. Peace.","created":"2023-10-02 15:55:51"}];
+    global.fetch.mockResolvedValue({
+      json: jest.fn().mockResolvedValue(mockResponse),
+    });
+
+    const url = '/getComments';
+    const result = await Api.get(url);
+
+    expect(global.fetch).toHaveBeenCalledWith(url, {
+      method: 'get',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+    expect(result).toEqual(mockResponse);
+  });
+
+  //GET /getComment
+  it('should call GET request and return data', async () => {
+    const mockResponse = {"id":97,"name":"Royal Tart Toter","message":"This cosmic dance of bursting decadence and withheld permissions twists all our arms collectively, but if sweetness can win, and it can, then I’ll still be here tomorrow to high-five you yesterday, my friend. Peace.","created":"2023-10-02 15:55:51"};
+    global.fetch.mockResolvedValue({
+      json: jest.fn().mockResolvedValue(mockResponse),
+    });
+
+    const url = '/getComment?id=97';
+    //const body = {id: 97};
+    const result = await Api.get(url);
+
+    expect(global.fetch).toHaveBeenCalledWith(url, {
+      method: 'get',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+    expect(result).toEqual(mockResponse);
+  });
+
+
   it('should call DELETE request and return data', async () => {
-    const mockResponse = { data: 'test' };
+    const mockResponse = { "id": 98 };
     global.fetch.mockResolvedValue({
       json: jest.fn().mockResolvedValue(mockResponse),
     });
