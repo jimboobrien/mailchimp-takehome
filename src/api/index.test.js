@@ -1,93 +1,71 @@
 import { Api } from './index';
 
-// Mock the global fetch function
-global.fetch = jest.fn(() =>
-  Promise.resolve({
-    json: () => Promise.resolve({ success: true }),
-  })
-);
-
-describe('Api', () => {
+describe('API methods', () => {
   beforeEach(() => {
-    fetch.mockClear(); // Clear any previous mock calls
+    global.fetch = jest.fn();
   });
 
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
 
-
-  describe('call method', () => {
-    it('should call fetch with correct URL and method', async () => {
-      const url = '/test-url';
-      const method = 'get';
-
-      await Api.call(url, method);
-
-      expect(fetch).toHaveBeenCalledWith(url, {
-        method: 'get',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-      });
+  it('should call GET request and return data', async () => {
+    const mockResponse = { data: 'test' };
+    global.fetch.mockResolvedValue({
+      json: jest.fn().mockResolvedValue(mockResponse),
     });
 
-//     it('should include body in fetch if provided', async () => {
-//       const url = '/test-url';
-//       const method = 'post';
-//       const body = { name: 'John Doe' };
+    const url = '/getcomments';
+    const result = await Api.get(url);
 
-//       await Api.call(url, method, body);
+    expect(global.fetch).toHaveBeenCalledWith(url, {
+      method: 'get',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+    expect(result).toEqual(mockResponse);
+  });
 
-//       expect(fetch).toHaveBeenCalledWith(url, {
-//         method: 'post',
-//         headers: {
-//           Accept: 'application/json',
-//           'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify(body),
-//       });
-//     });
+  it('should call POST request with a body and return data', async () => {
+    const mockResponse = { data: 'test' };
+    global.fetch.mockResolvedValue({
+      json: jest.fn().mockResolvedValue(mockResponse),
+    });
 
-//     it('should return JSON response', async () => {
-//       const url = '/test-url';
-//       const method = 'get';
+    const url = '/createComment';
+    const body = {"id": 105, "name": "Jim OBrien", "message": "Jimbo Test Message", "created": "2024-09-24 00:09:06" };
+    const result = await Api.post(url, body);
 
-//       const response = await Api.call(url, method);
+    expect(global.fetch).toHaveBeenCalledWith(url, {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+    expect(result).toEqual(mockResponse);
+  });
 
-//       expect(response).toEqual({ success: true });
-//     });
-   });
+  it('should call DELETE request and return data', async () => {
+    const mockResponse = { data: 'test' };
+    global.fetch.mockResolvedValue({
+      json: jest.fn().mockResolvedValue(mockResponse),
+    });
 
-//   describe('get method', () => {
-//     it('should call the call method with "get" method', async () => {
-//       const spy = jest.spyOn(Api, 'call');
-//       const url = '/test-get-url';
+    const url = '/deleteComments';
+    const result = await Api.delete(url);
 
-//       await Api.get(url);
+    expect(global.fetch).toHaveBeenCalledWith(url, {
+      method: 'delete',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+    expect(result).toEqual(mockResponse);
+  });
 
-//       expect(spy).toHaveBeenCalledWith(url, 'get');
-//     });
-//   });
-
-//   describe('post method', () => {
-//     it('should call the call method with "post" method and body', async () => {
-//       const spy = jest.spyOn(Api, 'call');
-//       const url = '/test-post-url';
-//       const body = { message: 'Hello World' };
-
-//       await Api.post(url, body);
-
-//       expect(spy).toHaveBeenCalledWith(url, 'post', body);
-//     });
-//   });
-
-//   describe('delete method', () => {
-//     it('should call the call method with "delete" method', async () => {
-//       const spy = jest.spyOn(Api, 'call');
-//       const url = '/test-delete-url';
-
-//       await Api.delete(url);
-
-//       expect(spy).toHaveBeenCalledWith(url, 'delete');
-//     });
-//   });
 });

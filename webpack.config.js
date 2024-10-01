@@ -11,7 +11,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx|ts|tsx)$/,  // Add support for both JS/TSX/TS
+        test: /\.(js|jsx|ts|tsx)$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
@@ -19,27 +19,25 @@ module.exports = {
             presets: [
               '@babel/preset-env',
               '@babel/preset-react',
-              '@babel/preset-typescript', // Add TypeScript preset
+              '@babel/preset-typescript',
             ],
           },
         },
       },
-      // Rule to handle SCSS/SASS files
       {
-        test: /\.(scss|sass)$/, // Match .scss and .sass files
+        test: /\.(scss|sass)$/,
         use: [
           MiniCssExtractPlugin.loader,
-          //'style-loader',    // Injects CSS into the DOM
-          'css-loader',      // Translates CSS into CommonJS
-          'sass-loader',     // Compiles Sass to CSS
+          //'style-loader',
+          'css-loader',
+          'sass-loader',
         ],
       },
-      // Rule for image files
       {
         test: /\.(png|jpe?g|gif|svg)$/i,
-        type: 'asset/resource', // Built-in Webpack feature for handling assets
+        type: 'asset/resource',
         generator: {
-          filename: 'images/[name][hash].[ext]', // Output path for images
+          filename: 'images/[name][hash].[ext]',
         },
       },
     ],
@@ -50,6 +48,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './public/index.html',
+      favicon: "./src/images/favicon.ico"
     }),
     new MiniCssExtractPlugin({
       filename: 'index.css', // Output CSS files with the same name as the entry
