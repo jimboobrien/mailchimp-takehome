@@ -68,32 +68,42 @@ const CommentSection = () => {
     }
   };
 
+
+  const clearSearch = () => {
+    setSearchId('');
+    setSearchResult(null);
+  };
+
   return (
     <div className="comments__container">
       <CommentForm onNewComment={handleNewComment} /> {/* Pass the callback */}
-      <form onSubmit={handleSearchSubmit} className="search__form">
-        <input
-          type="text"
-          value={searchId}
-          onChange={handleSearchInputChange}
-          placeholder="Enter comment ID to search"
-          className="search__input"
-        />
-        <button type="submit" >Search</button>
-      </form>
-      {searchResult ? (
-        <div className="search__result">
-          <h2>Search Result:</h2>
-          <article>
-            <p>{searchResult.message}</p>
-            <footer>
-              <p>{searchResult.name} on {searchResult.created}</p>
-            </footer>
-          </article>
-        </div>
-      ) : (
-        <p>No comment found with that ID.</p>
-      )}
+      <div className="search__container">
+        <h2>Search Comments</h2>
+        <form onSubmit={handleSearchSubmit} className="search__form">
+          <input
+            type="text"
+            value={searchId}
+            onChange={handleSearchInputChange}
+            placeholder="Enter comment ID to search"
+            className="search__input"
+          />
+          <button type="submit" >Search</button>
+          <button type="button" onClick={clearSearch}>Clear</button>
+        </form>
+        {searchResult ? (
+          <div className="search__result">
+            <h2>Search Result:</h2>
+            <article>
+              <p>{searchResult.message}</p>
+              <footer>
+                <p>{searchResult.name} on {searchResult.created}</p>
+              </footer>
+            </article>
+          </div>
+        ) : (
+          <p className="search__result">No comment found with that ID.</p>
+        )}
+      </div>
       <CommentList comments={comments} /> {/* Render the comment list */}
     </div>
   );
